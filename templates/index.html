@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot pour les erreurs de code</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="header">
+        <div class="button-container">
+            <a href="/login" class="button">Connexion</a>
+            <a href="/inscription" class="button">Inscription</a>
+            <a href="/admin_login" class="button">Admin</a>
+            <a href="/historique" class="button">Historique</a> 
+        </div>
+    </div>
+    <div class="chat-container">
+        <h1>Bienvenue sur notre Chatbot</h1>
+        <h2>Entrez vos messages d'erreurs, nous vous proposerons les meilleures solutions</h2>
+        
+        <div id="chat-display">
+            
+        </div>
+        <form id="user-input" onsubmit="sendMessage(event)">
+            <input type="text" id="user_message" placeholder="Posez votre question...">
+            <button type="submit">Envoyer</button>
+        </form>
+    </div>
+
+    <script>
+        function sendMessage(event) {
+            event.preventDefault();
+            let userMessage = document.getElementById('user_message').value;
+
+            fetch('/get_response', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `user_message=${encodeURIComponent(userMessage)}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                let botResponse = data.bot_response;
+                displayMessage(userMessage, 'user');
+                displayMessage(botResponse, 'bot');
+                document.getElementById('user_message').value = '';
+            });
+        }
+
+        function displayMessage(message, sender) {
+            let chatDisplay = document.getElementById('chat-display');
+            let messageElement = document.createElement('div');
+            messageElement.classList.add(sender);
+            messageElement.innerText = message;
+            chatDisplay.appendChild(messageElement);
+            chatDisplay.scrollTop = chatDisplay.scrollHeight; // Scroll vers le bas
+        }
+    </script>
+</body>
+</html>

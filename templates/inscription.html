@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Inscription</h1>
+        <form id="register-form" method="POST" action="/inscription">
+            <label for="first_name">Prénom:</label>
+            <input type="text" id="first_name" name="first_name" required>
+            
+            <label for="last_name">Nom:</label>
+            <input type="text" id="last_name" name="last_name" required>
+            
+            <label for="phone">Téléphone:</label>
+            <input type="tel" id="phone" name="phone" required>
+            
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            
+            <label for="password">Mot de passe:</label>
+            <input type="password" id="password" name="password" required>
+            
+            <button type="submit">S'inscrire</button>
+        </form>
+        <p>Déjà inscrit? <a href="{{ url_for('login') }}">Connectez-vous ici</a></p>
+    </div>
+</body>
+</html>
